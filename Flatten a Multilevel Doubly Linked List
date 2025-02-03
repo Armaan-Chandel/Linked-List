@@ -1,0 +1,59 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
+};
+*/
+
+class Solution {
+public:
+    void rec(Node* a,vector<int>& ans){
+        if(a==NULL){
+            return;
+        }
+        while(a!=NULL){
+            // Node* b=new Node(a->val);
+            // ans->next=b;
+            // ans=b;
+            ans.push_back(a->val);
+            Node* nex=a->child;
+            if(nex!=NULL){
+                rec(a->child,ans);
+            }
+            a=a->next;
+        }
+        return;
+    }
+    Node* flatten(Node* head) {
+        Node* a=head;
+        // Node* ans=new Node(-1);
+        // Node* ret=ans;
+        vector<int> ans;
+        rec(a,ans);
+        if(ans.size()==0){
+            return head;
+        }
+        Node* arr=new Node(ans[0]);
+        arr->prev=NULL;
+        arr->child=NULL;
+        arr->prev=NULL;
+        Node* ret=arr;
+        
+        for(int i=0;i<ans.size();i++){
+            cout<<ans[i]<<endl;
+        }
+        for(int i=1;i<ans.size();i++){
+            Node* temp=new Node(ans[i]);
+            arr->next=temp;
+            temp->prev=arr;
+            temp->child=NULL;
+            arr=arr->next;
+        }
+        return ret;
+
+    }
+};
